@@ -16,7 +16,7 @@ app = dash.Dash()
 
 # Base Layout
 app.layout = html.Div([
-	dcc.Tabs(id='dashboard-tabs', value='change-tab',children=[
+	dcc.Tabs(id='dashboard-tabs', value='price-tab',children=[
 		dcc.Tab(label='Stock Price', value='price-tab',children=[
 			html.Div([html.H2(id='tab1-stock-name', 
 				           style={'width':'30%','display':'inline-block'}), 
@@ -47,17 +47,110 @@ app.layout = html.Div([
 	]) # End base Div
 
 ##### Callbacks for Tab 1 ######
-@app.callback([Output('tab1-stock-name','children'),
-	           Output('tab1-ticker','children'),
-	           Output('tab1-stock-price','children')],
-	          [Input('tab1-submit','n_clicks')],
-	          [State('tab1-ticker-input','value')])
-def get_ticker(n_clicks, ticker):
+### Helper Function for Tab 1 Callbacks ###
+"""
+Verify ticker, return (Valid Ticker is True, Ticker).
+This function only verify the format, it does not verify existence.
+"""
+def verify_ticker(ticker, mkt):
 	# Identify which ticker is that
-	tick = re.findall('\d{1,5}|[A-Za-z]{1,4}', ticker)
-	if len(tick)>0:
-		print(tick[0])
-	return 'Cathay Pacific', '00293.HK', '$20.00'
+	# For Hong Kong Stocks
+	if mkt == 'hk':
+		tick = re.findall('^\d{1,5}$', ticker)
+		if len(tick)>0:
+			tick = str(tick[0])[::-1]
+			while(len(tick)<4):
+				tick += '0'
+			tick = tick[::-1]
+			tick += '.HK'
+			return True, tick
+		# If entered ticker invalid
+		else:
+			return False, None
+	#
+	elif mkt == 'us':
+		tick = re.findall('^[A-Za-z]{1,4}$', ticker)
+		if len(tick)>0:
+			return True, tick[0].upper()
+		# If entered ticker invalid
+		else:
+			return False, None
+	return False, None
+
+# Generate stock price and graph on Tab 1
+@app.callback([Output('tab1-stock-name','children'), # Stock Name
+	           Output('tab1-ticker','children'), # Ticker
+	           Output('tab1-stock-price','children'), # Current Stock Price
+	           Output('tab1-stock-price-change','children'), # Price Change
+	           Output('tab1-stock-price-change','style'), 
+	           # Price Change font colour
+	           Output('tab1-stock-price-percentchange','children'), 
+	           # Price Percent Change
+	           Output('tab1-stock-price-percentchange','style'), 
+	           # Price Precent Change font colour
+	           Output('tab1-error-message','children'), # Error Message
+	           Output('tab1-vis','figure'), # Stock Price Chart
+	           Output('tab1-table','children')], # Table of Stock Stats
+	          [Input('tab1-submit','n_clicks'), # Button
+	           Input('tab1-time-interval','value')], # Time interval
+	          [State('tab1-ticker-input','value'), # Ticker textbox input
+	           State('tab1-market-dropdown', 'value')]) # Market Dropdown input
+def get_ticker(n_clicks, time, ticker, mkt):
+	# For default setting
+	if ticker == '':
+		return '','','','',{'width':'20%', 'display':'inline-block'},'', \
+		       {'width':'20%', 'display':'inline-block'},'', \
+		       {'data':None}, None
+	# Verify ticker format in respective to stock market
+	stockFormat, ticker = verify_ticker(ticker, mkt)
+	# Catch incorrect 
+	if stockFormat is False:
+		return 'Wrong Ticker', '#######', '$##.##', '##.##', \
+		       {'width':'20%', 'display':'inline-block'}, '##.##%', \
+		       {'width':'20%', 'display':'inline-block'}, \
+		       'Error! Please try again.', {'data':None}, None
+	# Obtain stock price and stats
+	stock = yfinance.Ticker(ticker)
+	# Catch if stock exists
+	if stock.history(period='ytd').shape[0] == 0:
+		return 'Wrong Ticker', '#######', '$##.##', '##.##', \
+		       {'width':'20%', 'display':'inline-block'}, '##.##%', \
+		       {'width':'20%', 'display':'inline-block'}, \
+		       'Error! Please try again.', {'data':None}, None
+	### Stock Stats for Info Box ###
+	try: 
+		# Name and price
+		stock_name = stock.info['longName']
+		price_list = stock.history(period=time)['Close'].tolist()
+		price = f'${price_list[-1]:.2f}'
+		# Price Change
+		price_change = price_list[-1]/price_list[-2]
+		price_percent_change = (price_list[-1]/price_list[-2])-1
+		if price_change > 0:
+			price_change_colour = {'color':'green'}
+		else:
+			price_change_colour = {'color':'red'}
+		price_change_colour['display']= 'inline-block'
+		price_change_colour['width']= '20%'
+		price_change_colour['font-size'] = '150%'
+		price_change = f'{price_change:.2f}'
+		price_percent_change = f'{price_percent_change*100:,.2f}%'
+		fig = getCandlestick(stock.history(period=time).reset_index())
+		table = getTab1Table(stock.history(period=time).reset_index(),
+			                 stock.info)
+
+		print(price)
+	except:
+		return 'Sorry! Company Not Available', '#######', '$##.##', '##.##', \
+		       {'width':'20%', 'display':'inline-block'}, '##.##%', \
+		       {'width':'20%', 'display':'inline-block'}, \
+		       'Error! Please try again another Company.', {'data':None}, None
+
+
+
+
+	return stock_name, ticker, price, price_change, price_change_colour, \
+	       price_percent_change, price_change_colour, '', fig, table
 
 ##### Callbacks for Tab 2 ######
 """
@@ -166,7 +259,7 @@ def generate_tab2_graph(mkt,stocks,time):
 	for col in df_index.columns:
 		if col != 'Date':
 			df_index[col] = get_price_change(df_index[col].tolist())
-	fig = getLinePlot(df_index)
+	fig = getLinePlot(df_index, 2)
 
 	# Prepare the data set to list the summary on the table
 	last_close = df_index[index_col].tolist()[-1]*100
