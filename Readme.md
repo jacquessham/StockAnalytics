@@ -9,12 +9,12 @@ Coming Soon.
 
 ## Part 3 - Prediction on S&P 500
 S&P 500 is the benchmark of the stock performance in the US market. Able to make prediction of the performance of S&P 500 is a valuable to invest in stocks or future contracts. In this part, I am going to build a prediction model to make prediction on S&P 500 in the future 52 weeks. 
-<br>
+<br><br>
 Coming Soon.
 
 ## Part 4 - Airline Stock Price vs. Crude Oil Price
 Fuel is one of the major expense of airlines. In this part, I am going to investigate how crude oil price affects on airlines stock price of different airlines and make analysis of selected airlines.
-<br>
+<br><br>
 Coming Soon.
 
 ## Part 5 - Stock Valuation Theory vs. Real World Stock Price
