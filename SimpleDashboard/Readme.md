@@ -38,7 +38,7 @@ On Tab 2, there are two dropdown lists for user to select. The first dropdown li
 ## Design
 The tabs are designed with HTML format like the following:
 <br>
-<img src='Images/tab1_structure.png'>
+<img src='Images/tab1_structure.png' style='width:50%;height:50%'>
 <br><br>
 <img src='Images/tab2_structure.png'>
 <br><br>
