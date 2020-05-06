@@ -1,7 +1,5 @@
 import pandas as pd
 import re
-from datetime import datetime
-from datetime import timedelta
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -18,7 +16,7 @@ app = dash.Dash()
 app.layout = html.Div([
 	dcc.Tabs(id='dashboard-tabs', value='price-tab',children=[
 		dcc.Tab(label='Stock Price', value='price-tab',children=[
-			html.Div([html.H2(id='tab1-stock-name', 
+			html.Div([html.H2(id='tab1-stock-name',
 				           style={'width':'30%','display':'inline-block'}), 
 				      html.H4(id='tab1-ticker', 
 				           style={'width':'10%','display':'inline-block'})],
@@ -77,6 +75,22 @@ def verify_ticker(ticker, mkt):
 			return False, None
 	return False, None
 
+# Obtain 50- ,100- and 200-day moving average
+def getMA(stock, time, date_list):
+	if 'mo' in time or time=='ytd' or time=='1y':
+		df = stock.history(period='2y')
+	elif time=='2y' or time=='3y' or time=='4y':
+		df = stock.history(period='5y')
+	else:
+		df = stock.history(period='10y')
+	df = df.reset_index()[['Date','Open','Low','High','Close']]
+	df['MA50'] = df.Close.rolling(50).mean()
+	df['MA100'] = df.Close.rolling(100).mean()
+	df['MA200'] = df.Close.rolling(200).mean()
+
+	df = df.loc[(df['Date']>=date_list.min()) & (df['Date']<=date_list.max())]
+	return df
+
 # Generate stock price and graph on Tab 1
 @app.callback([Output('tab1-stock-name','children'), # Stock Name
 	           Output('tab1-ticker','children'), # Ticker
@@ -98,7 +112,8 @@ def verify_ticker(ticker, mkt):
 def get_ticker(n_clicks, time, ticker, mkt):
 	# For default setting
 	if ticker == '':
-		return '','','','',{'width':'20%', 'display':'inline-block'},'', \
+		return 'Please Enter a Stock Ticker', \
+		       '','','',{'width':'20%', 'display':'inline-block'},'', \
 		       {'width':'20%', 'display':'inline-block'},'', \
 		       {'data':None}, None
 	# Verify ticker format in respective to stock market
@@ -124,7 +139,7 @@ def get_ticker(n_clicks, time, ticker, mkt):
 		price_list = stock.history(period=time)['Close'].tolist()
 		price = f'${price_list[-1]:.2f}'
 		# Price Change
-		price_change = price_list[-1]/price_list[-2]
+		price_change = price_list[-1] - price_list[-2]
 		price_percent_change = (price_list[-1]/price_list[-2])-1
 		if price_change > 0:
 			price_change_colour = {'color':'green'}
@@ -135,18 +150,19 @@ def get_ticker(n_clicks, time, ticker, mkt):
 		price_change_colour['font-size'] = '150%'
 		price_change = f'{price_change:.2f}'
 		price_percent_change = f'{price_percent_change*100:,.2f}%'
-		fig = getCandlestick(stock.history(period=time).reset_index())
+
+		df = getMA(stock, time, 
+			       stock.history(period=time).reset_index()['Date'])
+
+		fig = getCandlestick(df)
 		table = getTab1Table(stock.history(period=time).reset_index(),
 			                 stock.info)
 
-		print(price)
 	except:
 		return 'Sorry! Company Not Available', '#######', '$##.##', '##.##', \
 		       {'width':'20%', 'display':'inline-block'}, '##.##%', \
 		       {'width':'20%', 'display':'inline-block'}, \
 		       'Error! Please try again another Company.', {'data':None}, None
-
-
 
 
 	return stock_name, ticker, price, price_change, price_change_colour, \
