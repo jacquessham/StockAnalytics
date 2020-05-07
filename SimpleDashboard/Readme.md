@@ -1,5 +1,8 @@
 # Simple Stock Price Dashboard
 There are a lot of stock price dashboards in the market but most of those are not suiting my needs. In this part, I am going to develop tail-make a dashbaord for stock analysis. The first dashboard is aimed to develop a dashboard to analyze stocks with fundamental and basic technical analysis. 
+<br>
+<br>
+I have a Medium post talks about this dashboard, please find the post <a href="https://medium.com/@jjsham/building-stock-price-dashboard-with-plotly-dash-part-i-b165b3edfdd6">here</a>
 
 ## Background
 Besides only looking at the fundamentals and technical analysis of a single stock, it is helpful to compare the stock price trend with some benchmark index to understand whether the stock is outperform or underperform in the stock market. However, there are no a lot of tools out aimed to compare the growth trend between stock price and index in my desired format. Therefore, I would like to develop a dashboard to serve my goals for stock price analysis.
