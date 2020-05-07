@@ -80,9 +80,9 @@ There are 3 inputs and 1 action required from the user:
 	<li>Time interval from the radio item lists</li>
 	<li>Submit button to trigger the call back function</li>
 </ul>
-<br>
+<br><br>
 The only call back function, get_ticker(), is triggered the following situation initial set up, by hitting the submit button, or changing time interval. There are 2 Input() and 2 State(). Input() are inputs received from the n_click button and value from the time interval radio button list. The input from time interval radio button list has to be Input() because the graph does not update automatically if it is set to be State(). The program does not update the dashboard from entering new ticker unless the user hit the button. The dropdown list is set to receive the choice of stock market for the convenience for ticker formatting before calling the API. 
-<br>
+<br><br>
 There are 10 outputs from this call back function:
 <ol>
 	<li>Company Name of the stock</li>
@@ -105,7 +105,7 @@ There are 5 returns of this call back functions:
 	<li>Error from entering ticker which does not have full information from the API</li>
 	<li>Successful Return</li>
 </ul>
-<br><br>
+<br>
 Once the program has gathered the inputs from the users, it would follow the following steps:
 <ol>
 	<li><b>Verify if there is a ticker entered.</b> If not, it means this is a dashboard initializing. If there is no ticker entered, the function return a default Setting.</li>
@@ -125,9 +125,9 @@ There are 2 call back functions in this tab:
 	<li>generate_dropdown_stocknames()</li>
 	<li>generate_tab2_graph</li>
 </ul>
-<br><br>
-As mentioned, generate_dropdown_stocknames() generates a list of stocks what index user has selected. For example, if the user select S&P 500, this call back function returns a list of companies in S&P 500. This function takes 1 input and return 2 outputs. It takes the value selected from the first dropdown list. The call back function verify the selection and read the list of companies from the Data folder. After that, it return the list of companies sort by ticker (number or alphabetical letters) and a default value of the dropdown list. Note that the default value of dropdown list is always a empty list to represent no selection and prevent error in other functions.
 <br>
+As mentioned, generate_dropdown_stocknames() generates a list of stocks what index user has selected. For example, if the user select S&P 500, this call back function returns a list of companies in S&P 500. This function takes 1 input and return 2 outputs. It takes the value selected from the first dropdown list. The call back function verify the selection and read the list of companies from the Data folder. After that, it return the list of companies sort by ticker (number or alphabetical letters) and a default value of the dropdown list. Note that the default value of dropdown list is always a empty list to represent no selection and prevent error in other functions.
+<br><br>
 generate_tab2_graph() generates the HTML table and visualization on Tab 2. This call back functions takes 3 inputs: The index user selected from the first dropdown list, the list of stocks user selected, and the time interval on the visualization. Once all those inputs gathered from the users, the program would obtain the index and the stock price of the selected stocks by calling Yahoo Finance. Once the data is obtained, the call function would calculate the growth rate of index and each stock by calling the helper function, get_price_change(), and call getLinePlot() from <i>Layout.py</i> to obtain a line chart. After that, it would obtain the statistics of the index and generate a HTML table by calling getTab2Table() from <i>Layout.py</i>. 
 
 ## Driver Program - SimpleDashboard.py
@@ -215,7 +215,7 @@ The <i>Layout.py</i> helps defines the detail layout of the dashboard, the helpi
 	<li><b>get_table_layout</b>: Define a div for HTML table</li>
 </ul>
 
-### Functions to Generate Graphs and Tbales
+### Functions to Generate Graphs
 There are two graphing functions: getLinePlot() and GetCandlestick().
 <br><br>
 getLinePlot() takes 2 inputs, a data frame and tab number. The tab number helps set different y-axis for either tabs. The function takes the data frame to plot a line chart. <i>Date</i> column would always be on x-axis, and each line is plotted based on each column. The function returns the figure dictionary. The function can be used for either tabs but currently only Tab 1 relies on this function.
@@ -233,7 +233,8 @@ getCandlestick() takes 1 input, the data frame of stock prices. The data frame m
 </ul>
 <br>
 The function takes <i>Date</i>, <i>Open</i>, <i>Close</i>, <i>High</i>, <i>Low</i> plot a candle stick chart for the stock price, and takes <i>MA50</i>, <i>MA100</i>, <i>MA200</i> to plot 3 lines of 50-,100-,and 200-day moving average on top of the candle stick charts. 
-<br><br><br><br>
+
+### Functions to Generate Tables
 There are 2 functions to generate HTML tables, getTab1Table() and getTab2Table(), each is responsible to generate the HTML tables for either tabs.
 <br><br>
 getTab1Table() takes 2 inputs: Data frame of stock price and stock object obtained from Yahoo Finance. This function obtains price-related information from the data frame of stock price and statistic from the stock object. Within stock object, there is a dictionary, <i>info</i>, which stores the current statistic of the given stock. This function generates a HTML table with the following infomation:
@@ -270,7 +271,73 @@ The function first determine whether the last-day change of index is positive or
 There are 2 global variables for selections of Tab 1 and Tab 2 dropdown list: <i>tab1_markets</i> and <i>index_choice</i>. If there is any change in the global variables, one must update the call back functions to accommodate the change.
 
 ## Direction
-Coming Soon...
+### Analyze One Stock
+If you would like to look at the stock price of one stock, first open this dashboard and the dashboard would land on a default setting page.
+<br>
+<img src="Images/tab1_default.png">
+<br>
+Then, select the stock market of where the stock is trade. In this example, let's select General Electric (GE). Then, select <i>United States</i> on the drop list.
+<br>
+<img src="Images/select_mkt.png">
+<br>
+Enter the ticker and hit the submit button. All the infomation and the visualization will be displayed on the dashboard.
+<br>
+<img src="Images/ge.png">
+<br>
+Note that you have to select the correct stock market before hitting submit. If you select <i>Hong Kong</i> and enter a US stock ticker, the dashboard will display an error.
+<br>
+<img src="Images/error.png">
+
+
+### Compare Growth Trend of index and Stock Price
+If you would like to compare the growth trend between index and the growth trend  stock prices. You may first open this dashboard and switch to the 2nd tab <i>Stock/Index Growth</i>.
+<br>
+<img src="Images/tab2_default.png">
+<br>
+Then, you may select other index. For example, let's select S&P 500. The dashboard will re-generate a new plot right away.
+<br>
+<img src="Images/tab2_sp500.png">
+<br>
+Let's add the price growth of General Electric (GE) and Apple (AAPL) to compare with the growth of S&P 500. On the other dropdown list, let type or select GE and AAPL. And the dashboard will add the growth of GE and AAPL stock price.
+<br>
+<img src="Images/tab2_ge_aapl.png">
+Now if you look at the chart, you may find that GE is underperformed while AAPL is outperformed. 
 
 ## Gallery
+Stock Price of HSBC Holdings (0005.HK), YTD:
+<br>
+<img src="Images/hsbc.png">
+<br>
+<br>
+Compare stock price of HSBC Holdings (0005.HK) with Heng Seng Index, YTD:
+<br>
+<img src="Images/hsi_hsbc.png">
+<br>
+<br>
+Compare stock price of HSBC Holdings (0005.HK) with Heng Seng Index, in 5 years interval:
+<br>
+<img src="Images/hsi_hsbc_5yrs.png">
+<br>
+<br>
+Stock Price of Cathay Pacific Airways (0293.HK), YTD:
+<br>
+<img src="Images/cx.png">
+<br>
+<br>
+Stock Price of Apple, Inc (AAPL), YTD:
+<br>
+<img src="Images/aapl.png">
+<br><br>
+Stock Price of Microsoft Corp., in 1 month interval:
+<br>
+<img src="Images/msft.png">
+<br><br>
+Stock Price of Coca-cola Company, in 3 years interval:
+<br>
+<img src="Images/ko.png">
+
+
+## Next Part
+You may go back to the front page by clicking <a href="https://github.com/jacquessham/StockAnalytics">Here</a>.
+<br>
 Coming Soon...
