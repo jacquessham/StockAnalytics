@@ -72,11 +72,24 @@ for num in range(len(yhat_growth)):
 	curr_index = yhat[num-1]*(1+yhat_growth[num])
 	yhat.append(curr_index)
 
+# Calculate RMSE
 result_growth = sp500_test.copy()
 result_growth['yhat'] = yhat[1:]
 result_growth['se'] = (result_growth['y'] - result_growth['yhat'])**2
 
-save_result_rmse('Baseline Model', result_base['se'].sum()**.5)
-save_result_rmse('Time Series Natural Log Model', result_log['se'].sum()**.5)
-save_result_rmse('Time Series Growth Prediction Model',
-	             result_growth['se'].sum()**.5)
+rmse_baseline = (result_base['se'].sum()/result_base.shape[0])**.5
+rmse_log = (result_log['se'].sum()/result_log.shape[0])**.5
+rmse_growth = (result_growth['se'].sum()/result_growth.shape[0])**.5
+
+# Calculate R-square
+sp500_mean = sp500_test['y'].mean()
+sp500_test['st'] = (sp500_test['y'] - sp500_mean)**2
+sst = sp500_test['st'].sum()*1.0
+
+rsqu_base = 1-(result_base['se'].sum()/sst)
+rsqu_log = 1-(result_log['se'].sum()/sst)
+rsqu_growth = 1-(result_growth['se'].sum()/sst)
+
+save_result_rmse('Baseline Model', rmse_baseline, rsqu_base)
+save_result_rmse('Time Series Natural Log Model', rmse_log, rsqu_log)
+save_result_rmse('Time Series Growth Prediction Model', rmse_growth, rsqu_growth)
