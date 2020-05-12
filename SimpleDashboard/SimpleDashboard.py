@@ -187,7 +187,8 @@ user to input which market to look and return 2 outputs.
 	           [Input('tab2-index-choice','value')])
 def generate_dropdown_stocknames(mkt):
 	if mkt == 'hsi':
-		stock_list = pd.read_csv('Data/HengSengStockList.csv', dtype=str)
+		stock_list = pd.read_csv('../IndexComponents/HengSengStockList.csv',
+		             dtype=str)
 		stock_list = stock_list.sort_values('Ticker')
 		stock_list['label'] = stock_list['Ticker'].astype(str) + '\t' + \
 		                      stock_list['Company']
@@ -196,7 +197,8 @@ def generate_dropdown_stocknames(mkt):
 		        	stock_list['Ticker'].tolist())]
 		return opts, []
 	elif mkt == 'sp500':
-		stock_list = pd.read_csv('Data/SP500StockList.csv', engine='python')
+		stock_list = pd.read_csv('../IndexComponents/SP500StockList.csv',
+			                     engine='python')
 		stock_list = stock_list.sort_values('Ticker')
 		stock_list['label'] = stock_list['Ticker']
 		opts = [{'label': label, 'value': ticker} for label, ticker in 
