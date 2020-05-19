@@ -45,3 +45,32 @@ def insert_pred(conn, table, ticker, row):
 	cur = conn.cursor()
 	cur.execute(query, data)
 	conn.commit()
+
+# Function to insert training result from Prediction_Dynamic_StockPrice
+def insert_result(conn, ticker, rsqu, start_year, package):
+	# Query
+	query = """insert into stock.pred_dy_trainresult (ticker, rsquare,
+	           start_year, package) values (%s, %s, %s, %s)"""
+	data = (ticker, rsqu, start_year, package)
+	cur = conn.cursor()
+	cur.execute(query, data)
+	conn.commit()
+
+# Function to insert S&P 500 Divisor
+def insert_divisor(conn, tradedate, divisor):
+	query = """ insert into stock.sp500divisor (tradedate, divisor)
+	            values (%s, %s)"""
+	data = (tradedate, divisor)
+	cur = conn.cursor()
+	cur.execute(query, data)
+	conn.commit()
+
+# Function to insert pred_dy_sp500
+def insert_sp500_db(conn, row):
+	query = """ insert into stock.pred_dy_sp500 (tradedate, sp500_testdata,
+	            sp500_pred, sp500_predMod) values (%s, %s, %s, %s) """
+	data = (row['tradedate'], row['sp500_test'], row['sp500_pred'],
+		    row['sp500_predMod'])
+	cur = conn.cursor()
+	cur.execute(query, data)
+	conn.commit()
