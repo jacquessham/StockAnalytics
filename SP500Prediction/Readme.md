@@ -14,63 +14,7 @@ There are some ideas of how the model can be built:
 </ul>
 
 ## Data
-The data comes from Yahoo Finance via yfinance. The data stores in a relational database (Postgre SQL) in local machine. The following tables I have created for storing the data:
-<ul>
-	<li>stockprice - Table for daily stock price and volume</li>
-	<li>stockmeta - Table for meta data of stock</li>
-	<li>stockshareoutstanding - Table for numbers of oustanding shares each stock</li>
-	<li>pred_price_sp500base - Table for Predicted price</li>
-</ul>
-<br>
-All tables are stored in <i>stock</i> Schema.
-
-### stockprice (Table)
-The <i>stockprice</i> table stored the daily stock price or index. The columns consist:
-<ul>
-	<li><b>ticker</b> (varchar(10)): The ticker of the stock</li>
-	<li><b>tradedate</b> (timestamp): The date of transaction of given stock</li>
-	<li><b>openprice</b> (float): The opening price</li>
-	<li><b>high</b> (float): The daily high price</li>
-	<li><b>low</b> (float): The daily low price</li>
-	<li><b>closeprice</b> (float): The closing price</li>
-	<li><b>volume</b> (bigint): Volume trade on the given date, no scaling</li>
-</ul>
-<br>
-The data in this table are obtained from Yahoo Finance by <i>IngestSP500_init.py</i> and <i>IngestSP500CompanyPrice_init.py</i>. Please find more detail about the pipeline in the [ETL Pipelines folder](ETLPipelines).
-
-### stockmeta (Table)
-The <i>stockmeta</i> table stored the meta data of stocks. The columns consist:
-<ul>
-	<li><b>ticker</b> (varchar(10)): The ticker of the stock</li>
-	<li><b>companyname</b> (varchar(255)): The company name of the stock</li>
-	<li><b>gicssector</b> (varchar(100)): The sector the stock belongs to</li>
-	<li><b>gicssubindustry</b> (varchar(255)): The subindustry the stock belongs to</li>
-	<li><b>countrystockmarket</b> (varchar(50)): Country where the stock is traded</li>
-	<li><b>indexcomponent</b> (varchar(50)): The index which the stock is the component of</li>
-</ul>
-The data in this table are obtained from <a href="https://en.wikipedia.org/wiki/List_of_S%26P_500_companies">Wikipedia</a> by <i>IngestSP500CompanyPrice_init.py</i>. Please find more detail about the pipeline in the [ETL Pipelines folder](ETLPipelines).
-
-### stockshareoutstanding (Table)
-The <i>stockshareoutstanding</i> table stored the number of floating shares each stock available in the stock market. The columns consist:
-<ul>
-	<li><b>ticker</b> (varchar(10)): The ticker of the stock</li>
-	<li><b>shareoutstanding</b> (bigint): The number of floating shares available</li>
-</ul>
-The data in this table are obtained from Yahoo Finance by <i>IngestSP500ShareOutstanding_init.py</i> and <i>IngestSP500ShareOutstanding_forerrors.py</i>. Please find more detail about the pipeline in the [ETL Pipelines folder](ETLPipelines).
-
-### pred_price_sp500base (Table)
-The <i>pred_price_sp500base</i> table stored the prediction made in Approach 2. The columns consists
-<ul>
-	<li><b>ticker</b> (varchar(10)): The ticker of the stock</li>
-	<li><b>tradedate</b> (timestamp): The date of transaction of given stock</li>
-	<li><b>closeprice</b> (float): The predicted closing price of the given stock on the given date</li>
-</ul>
-The data in this table are obtained in Approach 2 with the following program:
-<ul>
-	<li>Prediction_StockPrice.py</li>
-	<li></li>
-</ul>
-There is more explantation coming soon...
+The data comes from Yahoo Finance via yfinance. The data stores in a relational database (Postgre SQL) in local machine. You may find more detail on the data and the database tables in the [Data folder](Data).
 
 ## ETL Pipelines
 There are pipelines to ingest data into the database. 
