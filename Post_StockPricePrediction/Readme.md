@@ -1,6 +1,6 @@
 # Supplemental Files for Medium Post - Predict Stock Price with Time-Series Statistical Learning
 
-This folder consists the supplemental files for my Medium Post of <i>Predict Stock Price with Time-Series Statistical Learning</i>. In the post, we have made predictive models for Apple (AAPL) and Lockheed Martin (LMT). This folder consists of the code of predictive models train with the following algorithms:
+This folder consists the supplemental files for my Medium Post of <a href="https://medium.com/@jjsham/predict-stock-price-with-time-series-statistical-learning-fec97560439e"><i>Predict Stock Price with Time-Series Statistical Learning</i></a>. In the post, we have made predictive models for Apple (AAPL) and Lockheed Martin (LMT). This folder consists of the code of predictive models train with the following algorithms:
 <ul>
 	<li>Adaptive model (Facebook Prophet)</li>
 	<li>ARIMA model (pmdarima)</li>
