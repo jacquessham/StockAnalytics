@@ -1,5 +1,5 @@
 # ETL Pipelines
-Since the data is stored in the local relational database, this folder is storing the pipeline files that ingest data to the database. The relational database is Postgre. You may find the tables in the [Data folder](../Data)
+This folder is the Data Acquisition part of the Stock Price Aggregation Model. Since the data is stored in the local relational database, this folder is storing the pipeline files that ingest data to the database. The relational database is Postgre. You may find the tables in the [Data folder](../Data).
 
 ## Files
 There are 6 Python files and 1 csv file. The following list are the files in this folder:
