@@ -8,6 +8,15 @@ select ticker,
 from stock.stockshareoutstanding
 order by 2 desc limit 20;
 
+-- Obtain index weight of top 20 heavy-weighted stocks in S&P 500 with names
+select l.ticker, r.companyname,
+      (1.0*l.shareoutstanding)/(select sum(shareoutstanding)
+      from stock.stockshareoutstanding) as weight
+from stock.stockshareoutstanding as l
+left join
+stock.stockmeta as r on l.ticker = r.ticker
+order by 3 desc limit 20;
+
 -- Obtain real stock price and predicted stock price top 20 heavy-weighted stock
 select l.ticker as ticker, l.tradedate as tradedate,
 l.closeprice as price, r.closeprice as predictedprice

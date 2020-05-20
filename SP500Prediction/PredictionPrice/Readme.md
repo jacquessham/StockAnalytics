@@ -8,6 +8,7 @@ This folder consists of the following files and folders:
 	<li>Static - Consists of codes to make stock price based on different condition</li>
 	<li>Prediction_arima.py - Template to predict stock price with Box-Jerkins method</li>
 	<li>HeavyPrediction_try.py - Template to find the best predictive model of one stock among adaptive models with different time interval and Holt-winters method</li>
+	<li>Evaluation_StockPrice.py - Code evaluate accuracy between predicted stock price and real stock price</li>
 </ul>
 
 ## Files in this Folder
@@ -18,6 +19,9 @@ This folder consists of the following files and folders:
 <i>HeavyPrediction_try.py</i> is a dynamic grid search model to find the best predictive model between adaptative model and Holt-winters method with different hyperparameters. This file demostrate how to select the best model based on the accuracy by comparing for the top 20 heavy-weighted S&P 500 components. The code selects the model with the highest R-square for each stock. 
 <br><br>
 Both files are code for experiment to make predictive models for making prototype model.
+<br><br>
+<i>Evaluation_StockPrice.py</i> is the code evaluate accuracy between predicted stock price and real stock price on ad-hoc basis. It did not used in the prototype predictive model.
+
 
 ## Static Folder
 The static folder consists of codes to make stock price prediction with fixed time interval. The code in this folder are experimental code to make predictive models for making prototype model. You may find the codes in the [Static Folder](Static).
