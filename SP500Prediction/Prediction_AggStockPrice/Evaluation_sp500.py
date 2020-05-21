@@ -1,6 +1,5 @@
 import pandas as pd
 import psycopg2
-from Results import *
 
 
 # Connect to database
