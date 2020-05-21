@@ -1,10 +1,11 @@
 # Prediction on S&P 500
-S&P 500 is a benchmark index in the United States and it is a significant stock market indicator to the US stock market. It is very worth to understand the trend and seasonality of the S&P 500, for stock and future index investing. In this part of the project, we are going to build a model to predict the S&P 500 in the future 12 months.
+S&P 500 is a benchmark index in the United States and it is a significant stock market indicator to the US stock market. It is very worth to understand the trend and seasonality of the S&P 500, for stock and future index investing. In this part of the project, we are going to build a model to predict the S&P 500 in the future 6 months.
 
 ## Background on S&P 500
 S&P 500 is a capitalization-weighted index in the United States. This index takes the the weighted average of the top 500 market capitalization companies to reflect the average of the stock market. There 505 stock components in the S&P 500 because there is about 5 companies offers 2 class stocks. The S&P 500 is calculated by summing all market capitalization of 505 components and divided by divisor. Divisor is an adjusted market capitalization. The formula is:
 <br>
 $`\frac{\sum_{n=1}^{505} P_i Q_i}{Divisor}`$
+<img src="https://render.githubusercontent.com/render/math?math=\frac{\sum_{n=1}^{505} P_i Q_i}{Divisor}">
 <br><br>
 The list of stock components is obtained from <a href="https://en.wikipedia.org/wiki/List_of_S%26P_500_companies">Wikipedia</a> and saved in the [Index Components folder](../IndexComponents).
 <br><br>
@@ -71,6 +72,8 @@ After the data is obtained, the next phase is to predict all stock price of the 
 Once the predicted stock price is saved in the database, we can calculate the index with the predicted stock price. The next step is Index Calculation phase that the S&P 500 predictive model takes all predicted stock price and calculate the index based on the S&P 500 formula and save the predicted index in the local relational database. In the final phase, we evaluate the accuracy with testing data. You may find more detail of Index Calculation, and Evaluation phases in the [Stock Price Aggregation Model folder](Prediction_AggStockPrice).
 <br><br>
 The accuracy of this approach is 23% R-square.
+<br><br>
+After the model training phase, the prototype model is built to predict the index 6 months after May 2020. The prototype model has some adjustment to the model in the model training phase. You may find more detail of the prototype model in the [Prototype Model folder](Prototype_Prediction). You may also find the the prediction visualization and the dashboard code in the [Dashboard folder (Coming Soon)](/).
 <br><br><br><br>
 In this approach, I have written 2 Medium Post on Stock Price Prediction and the reflection of this approach. You may find the supporting detail of those post in the [Stock Price Prediction Post folder](../Post_StockPricePrediction) and the [Stock Price Aggregation Model Post folder](../Post_Prediction_AggStockPrice).
 
