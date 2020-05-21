@@ -15,15 +15,12 @@ conn = psycopg2.connect(host='localhost', port=5432, database='postgres')
 start_year = [1997, 2000, 2005, 2007] + list(range(2010, 2018))
 methods = ['fbp', 'hw']
 
-query_tickers = """select i.ticker as ticker, i.row_num from(
-                       select ticker, 
-                       row_number() over(order by ticker) as row_num
-                       from stock.stockshareoutstanding) as i
-                where row_num between 1 and 50"""
+query_tickers = """select ticker from stock.stockshareoutstanding
+                   order by shareoutstanding desc limit 5"""
 tickers = pd.io.sql.read_sql(query_tickers, conn)
 
 # Error Log
-error_log = {'Ticker':[], 'transaction_date':[],
+error_log = {'ticker':[], 'transaction_date':[],
              'Database':[], 'Error':[]}
 # Time Log
 time_log = {'Ticker': [], 'Timer': []}
@@ -62,8 +59,8 @@ for ticker in tickers['ticker'].tolist():
 				try:
 					# Train Model
 					model = ExponentialSmoothing(X_train['closeprice'],
-					                             trend='add', seasonal='add',
-					                             seasonal_periods=4).fit()
+						             trend='add', seasonal='add',
+						             seasonal_periods=4).fit()
 					# Predict
 					pred = model.forecast(X_test.shape[0])
 					X_test['yhat'] = pred.tolist()
@@ -75,17 +72,14 @@ for ticker in tickers['ticker'].tolist():
 					result_ticker.append(((year, method), r_square))
 					preds[(year, method)] = X_test
 				except:
-					error_log['Ticker'].append(ticker)
-					error_log['transaction_date'].append('')
-					error_log['Database'].append('')
-					error_log['Error'].append('Modeling Error')
+					pass
 
 			# For Facebook Prophet
 			elif method == 'fbp':
-				try:
 				# Train Model
-					X_train_copy = X_train.copy()
-					X_train_copy.columns = ['ds', 'y']
+				X_train_copy = X_train.copy()
+				X_train_copy.columns = ['ds', 'y']
+				try:
 					model = Prophet()
 					model.fit(X_train_copy)
 					# Predict
@@ -99,17 +93,11 @@ for ticker in tickers['ticker'].tolist():
 					result_ticker.append(((year, method), r_square))
 					preds[(year, method)] = pred
 				except:
-					error_log['Ticker'].append(ticker)
-					error_log['transaction_date'].append('')
-					error_log['Database'].append('')
-					error_log['Error'].append('Modeling Error')
+					pass
 
 	result_ticker = sorted(result_ticker,key=lambda x:x[1], reverse=True)
-	if len(result_ticker) > 0:
-		rsquare_best = result_ticker[0][1]
-		chosen_pred = preds[result_ticker[0][0]]
-	else:
-		continue
+	rsquare_best = result_ticker[0][1]
+	chosen_pred = preds[result_ticker[0][0]]
 	# If rsquare is greater than 0, go to good staging database
 	if rsquare_best > 0:
 		for index, row in chosen_pred.iterrows():
@@ -150,8 +138,8 @@ conn.close()
 
 # Save error log
 error_log = pd.DataFrame(error_log)
-error_log.to_csv('Logs/ErrorLog_PredDy_50.csv', index=False)
+error_log.to_csv('Logs/ErrorLog_PredDy_template.csv', index=False)
 
 # Save timer log
 time_log = pd.DataFrame(time_log)
-time_log.to_csv('Logs/TimeLog_PredDy_50.csv', index=False)
+time_log.to_csv('Logs/TimeLog_PredDy_template.csv', index=False)
