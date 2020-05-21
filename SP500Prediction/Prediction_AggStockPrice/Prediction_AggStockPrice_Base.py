@@ -1,6 +1,8 @@
 import pandas as pd
 import psycopg2
-from ETLPipelines.InsertData import *
+import sys
+sys.path.append('../ETLPipelines')
+from InsertData import *
 
 
 # Function to calculate marketshare
