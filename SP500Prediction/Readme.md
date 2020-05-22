@@ -4,7 +4,6 @@ S&P 500 is a benchmark index in the United States and it is a significant stock 
 ## Background on S&P 500
 S&P 500 is a capitalization-weighted index in the United States. This index takes the the weighted average of the top 500 market capitalization companies to reflect the average of the stock market. There 505 stock components in the S&P 500 because there is about 5 companies offers 2 class stocks. The S&P 500 is calculated by summing all market capitalization of 505 components and divided by divisor. Divisor is an adjusted market capitalization. The formula is:
 <br>
-$`\frac{\sum_{n=1}^{505} P_i Q_i}{Divisor}`$
 <img src="https://render.githubusercontent.com/render/math?math=\huge\frac{\sum_{n=1}^{505} P_i Q_i}{Divisor}">
 <br><br>
 The list of stock components is obtained from <a href="https://en.wikipedia.org/wiki/List_of_S%26P_500_companies">Wikipedia</a> and saved in the [Index Components folder](../IndexComponents).
