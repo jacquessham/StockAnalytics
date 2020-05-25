@@ -4,6 +4,7 @@ S&P 500 is a benchmark index in the United States and it is a significant stock 
 ## Background on S&P 500
 S&P 500 is a capitalization-weighted index in the United States. This index takes the the weighted average of the top 500 market capitalization companies to reflect the average of the stock market. There 505 stock components in the S&P 500 because there is about 5 companies offers 2 class stocks. The S&P 500 is calculated by summing all market capitalization of 505 components and divided by divisor. Divisor is an adjusted market capitalization. The formula is:
 <br>
+<br>
 <img src="https://render.githubusercontent.com/render/math?math=\huge\frac{\sum_{n=1}^{505} P_i Q_i}{Divisor}">
 <br><br>
 The list of stock components is obtained from <a href="https://en.wikipedia.org/wiki/List_of_S%26P_500_companies">Wikipedia</a> and saved in the [Index Components folder](../IndexComponents).
@@ -41,25 +42,9 @@ There are pipelines to ingest data into the database.
 <br>
 You may find more detail in the [ETL Pipelines folder](ETLPipelines).
 
-## Packages Used
-<ul>
-	<li>pandas</li>
-	<li>numpy</li>
-	<li>psycopg2</li>
-	<li>fbprophet</li>
-</ul>
-
-## Files
-There are ...... code in this folder...
-<ul>
-	<li>Prediction_AggStockPrice_Template.py - For Approach 2</li>
-	<li>Prediction_AggStockPrice_Base.py - For Approach 2</li>
-	<li>Evaluation_sp500.py - For Approach 2</li>
-	<li>Results.py</li>
-</ul>
 
 ## Approach 1 - Times-series only Model
-The baseline model is the first approach to predict S&P 500. The baseline model is a predictive model of S&P 500 using adaptive model in time-series statistical model. This approach trains the predictive model with Facebook Prophet. The baseline model has achieved a 10.69% R-square. You may find more detail and the code in the [Baseline Model folder](BaselineModel)
+The baseline model is the first approach to predict S&P 500. The baseline model is a predictive model of S&P 500 using adaptive model in time-series statistical model. This approach trains the predictive model with Facebook Prophet. The baseline model has achieved a 10.69% R-square. You may find more detail and the code in the [Baseline Model folder](BaselineModel).
 
 ## Approach 2 - Stock Price Aggregation Model
 The Stock Price Aggregation Model takes the nature of index calculation of S&P 500, it predicts the stock price of all S&P 500 components and calculate the S&P 500 using all predicted stock price. This approach consists 4 parts - Data Acquisition, Stock Price Prediction, Index Calculation, and Evaluation. In this part, the goal is to build a prototype S&P 500 predictive model.
@@ -72,13 +57,7 @@ Once the predicted stock price is saved in the database, we can calculate the in
 <br><br>
 The accuracy of this approach is 23% R-square.
 <br><br>
-After the model training phase, the prototype model is built to predict the index 6 months after May 2020. The prototype model has some adjustment to the model in the model training phase. You may find more detail of the prototype model in the [Prototype Model folder](Prototype_Prediction). You may also find the the prediction visualization and the dashboard code in the [Dashboard folder (Coming Soon)](/).
+After the model training phase, the prototype model is built to predict the index 6 months after May 2020. The prototype model has some adjustment to the model in the model training phase. You may find more detail of the prototype model in the [Prototype Model folder](Prototype_Prediction). You may also find the the prediction visualization and the dashboard code in the [Dashboard folder](Prototype_Prediction/Dashboard).
 <br><br><br><br>
 In this approach, I have written 2 Medium Post on Stock Price Prediction and the reflection of this approach. You may find the supporting detail of those post in the [Stock Price Prediction Post folder](../Post_StockPricePrediction) and the [Stock Price Aggregation Model Post folder](../Post_Prediction_AggStockPrice).
 
-
-## Approach 3 - Linear Regression Model
-Coming Soon...
-
-## Approach 4 - Emotion Model
-Coming Soon...
