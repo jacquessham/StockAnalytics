@@ -37,4 +37,7 @@ The Index Calculation phase is to use the predicted stock price in the Stock Pri
 
 
 ## Visualization
+The predicted S&P 500 is displayed on a dashboard, which its code and images can be found in the [Dashboard folder](Dashboard). Beside visualizating the predicted S&P 500 between May and December 2020, the dashboard also displayed the predicted growth of stock price of your choice(s) in compare to the growth of S&P 500 between May and December 2020. 
+
+## Suggested Adjustment to Production Model
 Coming Soon...
