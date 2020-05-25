@@ -22,4 +22,7 @@ Coming Soon...
 Coming Soon...
 
 ## Supplmental Folder - Prototype Stock Price Predictive Model
-I have a Medium Post to explain how to build prototype stock price predictive model to prepare for building a model to predict stock price of 505 stocks in S&P 500. This is part of the phase in [Part 3 - Prediction on S&P 500](SP500Prediction). You may find the supplemental files in the [folder](Post_StockPricePrediction). Or you may read my <a href="https://medium.com/@jjsham/predict-stock-price-with-time-series-statistical-learning-fec97560439e">post</a> in Medium. 
+I have a Medium Post to explain how to build prototype stock price predictive model to prepare for building a model to predict stock price of 505 stocks in S&P 500. This is part of the phase in [Part 3 - Prediction on S&P 500](SP500Prediction). You may find the supplemental files in the [Stock Price Prediction Supplemental files folder](Post_StockPricePrediction). Or you may read my <a href="https://medium.com/@jjsham/predict-stock-price-with-time-series-statistical-learning-fec97560439e">post</a> in Medium. 
+
+## Supplmental Folder - Prototype S&P 500 Predictive Model
+I have a Medium Post to explain the prototype S&P 500 predictive model. This is the result of the [Part 3 - Prediction on S&P 500](SP500Prediction). You may find the supplemental files in the [S&P 500 Prediction Supplemental files folder](Post_Prediction_SP500). Or you may read y <a href="https://medium.com/@jjsham/predicting-s-p-500-with-time-series-statistical-learning-8b9277e30b2a">post</a> in Medium.
