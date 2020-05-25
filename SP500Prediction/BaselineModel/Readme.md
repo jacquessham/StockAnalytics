@@ -26,5 +26,19 @@ The results are:
 <br>
 The baseline model has the highest R-squared or lowest RMSE, both modificated model did not perform better than the baseline model. As the result, the baseline model is the best model among three models.
 
+## Visualization
+The program would visualizate the results in line charts with Plotly at the end. The result of the basline model looks like this:
+<br>
+<img src="baseline.png">
+<br><br>
+The result of the Times Series Log Prediction Model looks like this:
+<br>
+<img src="log_model.png">
+<br><br>
+The result of the  Time Series Growth Prediction Model looks like this:
+<br>
+<img src="growth_model.png">
+<br><br>
+
 ## Next Approach
 In the next approach, we are going to predict S&P 500 by aggregating predicted stock price from 505 components in the S&P 500. You may find more details in the [Stock Price Aggregation Model Folder](../Predictioin_AggStockPrice)

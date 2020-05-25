@@ -2,17 +2,33 @@ import pandas as pd
 import numpy as np
 import psycopg2
 from fbprophet import Prophet
+import plotly.graph_objs as go
+from plotly.offline import plot
 from Results import *
 
+
+# Function to plot line chart
+def generate_line_chart(df_train, df_pred, pred_type):
+	layout = {'xaxis':{'title':'Date'}, 
+		      'yaxis':{'title':'Index'},
+	          'hovermode':False}
+	data = []
+	data.append(go.Scatter(x=df_train['ds'], y=df_train['y'],name='S&P 500'))
+	data.append(go.Scatter(x=df_pred['ds'], y=df_pred['yhat'],
+		                   name=pred_type))
+
+	return go.Figure({'data':data, 'layout':layout})
 
 # Connect to database
 conn = psycopg2.connect(host='localhost', port=5432, database='postgres')
 
 # Obtain training and testing data and convert dataframe format for fbprophet
 query_train = """select tradedate, closeprice from stock.stockprice
-                 where date_part('year', tradedate) between 1997 and 2018"""
+                 where date_part('year', tradedate) between 1997 and 2018
+                 and ticker = '^GSPC' order by tradedate"""
 query_test = """select tradedate, closeprice from stock.stockprice
-                where date_part('year', tradedate) between 2019 and 2020"""
+                where date_part('year', tradedate) between 2019 and 2020
+                and ticker = '^GSPC' order by tradedate"""
 
 sp500_train = pd.io.sql.read_sql(query_train, conn)
 sp500_test = pd.io.sql.read_sql(query_test, conn)
@@ -93,3 +109,20 @@ rsqu_growth = 1-(result_growth['se'].sum()/sst)
 save_result_rmse('Baseline Model', rmse_baseline, rsqu_base)
 save_result_rmse('Time Series Natural Log Model', rmse_log, rsqu_log)
 save_result_rmse('Time Series Growth Prediction Model', rmse_growth, rsqu_growth)
+
+# Generate Visualization
+query_real = """select tradedate as ds, closeprice as y
+                 from stock.stockprice
+                 where date_part('year', tradedate) >= 2019
+                 and ticker = '^GSPC' order by tradedate"""
+sp500_real = pd.io.sql.read_sql(query_real, conn) 
+
+fig_base = generate_line_chart(sp500_real, pred_base, 'Baseline Model')
+fig_base.write_html('basemodel_vis.html')
+
+
+fig_log = generate_line_chart(sp500_real, result_log, 'TS Log Model')
+fig_log.write_html('model_log_vis.html')
+
+fig_growth = generate_line_chart(sp500_real, result_growth, 'TS Growth Model')
+fig_growth.write_html('model_growth_vis.html')
