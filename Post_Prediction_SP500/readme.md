@@ -1,0 +1,3 @@
+# Supplemental Files for Medium Post - Predicting S&P 500 with Time-Series Statistical Learning
+
+This folder consists the supplemental files for my Medium Post of <a hred="">Predicting S&P 500 with Time-Series Statistical Learning (Coming Soon)</a>. The supplemental data and code will be coming soon...
