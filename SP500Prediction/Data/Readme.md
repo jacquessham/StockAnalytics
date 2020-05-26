@@ -81,7 +81,7 @@ The <i>pred_dy_trainresult</i> stored the accuracy and meta data of what package
 	<li><b>package</b> (varchar(10)): The package used for the best predictive model, in other word, it tells you which algorithm used</li>
 </ul>
 
-## Tables not used in Model Training Phase
+## Tables Used in Model Training Phase for Experimental Purpose
 The following Tables was built but did not used for model training phase. 
 <ul>
 	<li>pred_fbp_price_sp500_base - Table for Predicted price trained with stock price between 1997 and 2018 using Facebook Prophet </li>
@@ -103,3 +103,9 @@ The data in this table are obtained in Approach 2 with the following program:
 	<li>Prediction_StockPrice.py</li>
 	<li></li>
 </ul>
+
+## Tables Used for the Prototype Predictive Model
+Coming Soon...
+
+## ETL Pipelines
+You may learn more how the data is ingested into the database in the [ETL Pipelines folder](../ETLPipelines). 

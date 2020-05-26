@@ -1,5 +1,5 @@
 # Prediction - Stock Price Aggregation Model
-The Stock Price Aggregation Model takes the nature of index calculation of S&P 500, it predicts the stock price of all S&P 500 components and calculate the S&P 500 using all predicted stock price. This approach consists 4 parts - Data Acquisition, Stock Price Prediction, Index Calculation, and Evaluation. In this part, the goal is to build a prototype S&P 500 predictive model.
+The Stock Price Aggregation Model takes the nature of index calculation of S&P 500, it predicts the stock price of all S&P 500 components and calculate the S&P 500 using all predicted stock price. This approach consists 4 parts - Data Acquisition, Stock Price Prediction, Index Calculation, and Evaluation. In this part, the goal is to build a prototype S&P 500 predictive model. 
 
 ## Files
 This folder consists of the following files:
@@ -23,6 +23,8 @@ After the data is obtained, the next phase is to predict all stock price of the 
 In the database, there are 2 tables storing predicted stock price: <i>pred_dy_staging_sp500_good </i> and <i>pred_dy_staging_sp500_bad</i>. Each table stored the stock price from stock price predictive model of each stock. Our model is not able to gurantee high accuracy of stock price predictive model of each stock. The stock price returned from the best predictive models with positive R-square, the predicted stock price would be stored in the <i>pred_dy_staging_sp500_good </i> table; alternatively, the predicted stock price would be stored in the <i>pred_dy_staging_sp500_bad</i> table. For example, the best predictive model of Apple achieved 79% R-Square. The predicted stock price of Apple will be stored in the <i>pred_dy_staging_sp500_good </i> table. In contrast, the best predictive model of General Electrics only gives negative R-square accuracy. The predicted stock price of GE will be stored in the <i>pred_dy_staging_sp500_bad</i> table. The reason we separate the predicted stock price is to be convenient to distinguish the data quality in the next phase of Index Calculation.
 <br><br>
 In the current algorithm, there are 226 stocks have a positive R-square stock price predicted model, while 271 stocks have a negative R-square stock price predicted model and 8 stocks were failed to build a stock price predictive model.
+<br><br>
+I have a Medium Post about building stock price predictive model, you may learn more about it in that <a href="https://medium.com/datadriveninvestor/predict-stock-price-with-time-series-statistical-learning-fec97560439e">post</a>.
 
 ## Index Calculation
 After predicting stock price, the predicted stock prices are used to calculate the index with the S&P 500 formula. First, we retrieve all the predicted stock price and the number of floating shares of each stock in the database and calculate market capitalization by multiplying the daily predicted stock price with number of floating shares of each stock. Then, we sum all daily market capitalization from each stock. After dividing the summation with divisor, we would get the predicted daily index.
@@ -51,3 +53,6 @@ The accuracy of Predicted S&P 500 are
 	<li>Testing Data: 23.94%</li>
 	<li>Real World Data: 7.84%</li>
 </ul>
+
+## Next Step
+After the model training phase is over, the next step is to build a prototype predictive model. You may learn more about the prototype predictive model in the [Prototype Predictive Model folder](../Prototype_Prediction).
