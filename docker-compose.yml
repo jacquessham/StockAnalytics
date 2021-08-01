@@ -1,0 +1,15 @@
+dash:
+  build: ./SimpleDashboard
+  volumes: 
+    - ./SimpleDashboard:/SimpleDashboard
+  ports:
+    - 8000:8000
+
+jupyter:
+  build: ./SimpleDashboard
+  entrypoint: ["jupyter"]
+  command: ["notebook", "--ip=0.0.0.0", "--port=8080", "--allow-root"]
+  volumes: 
+    - ./SimpleDashboard:/SimpleDashboard
+  ports:
+    - 8080:8080

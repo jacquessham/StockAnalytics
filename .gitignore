@@ -5,3 +5,6 @@
 # python byte-compiled / optimized / DLL files
 **/__pycache__/
 *.py[cod]
+
+# jupyter cache files
+**/.ipynb*/

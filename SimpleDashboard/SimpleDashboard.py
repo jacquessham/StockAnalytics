@@ -295,4 +295,4 @@ def generate_tab2_graph(mkt,stocks,time):
 	return table, fig
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8000)
+    app.run_server(debug=True, port=8000, host='0.0.0.0')
