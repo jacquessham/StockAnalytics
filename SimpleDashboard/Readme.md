@@ -6,13 +6,13 @@ Also, I am forcing myself to take a planned approach to refactoring to learn thi
 
 Check out Jacques' [Original ReadMe](./Readme_original.md)
 
-### Refactoring Priorities
+### Refactoring 
 
-The second tab on this dashboard could be combined with the firts. So while the priority now is refactoring, I will not be testing the second tab while attempting these tasks.
+The second tab on this dashboard is unnecessary since the index can be overlayed on the same chart as the stock. Therefore, I will not be testing the second tab while attempting these refactoring tasks.
 
-1. **Setup to work on docker.**
+1. ~~**Setup to work on docker.**~~
 
-I tend to do everything in docker now because it makes life easier down the track. And ultimately I will need to learn to deploy Plotly Dash apps. So this is just a quick change that doesn't really fix anything. I will also add Jupyter Notebooks for testing code changes on the same setup.
+~~I tend to do everything in docker now because it makes life easier down the track. And ultimately I will need to learn to deploy Plotly Dash apps. So this is just a quick change that doesn't really fix anything. I will also add Jupyter Notebooks for testing code changes on the same setup.~~
 
 2. **Reduce API calls**
 
@@ -53,4 +53,4 @@ In other situations, such as the color change for price movements whether they a
 
 I will move the classes for core "widgets" to flex grid containers to activate the resizing functionality that comes with skeleton. 
 
-In some ways, this is not a refactoring step as it adds some new functionality. But nothing is changing in terms of the app features. 
+In some ways, this is not a refactoring step as it adds some new functionality. But nothing is changing in terms of the app features.
