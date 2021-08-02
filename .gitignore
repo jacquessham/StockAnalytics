@@ -6,5 +6,6 @@
 **/__pycache__/
 *.py[cod]
 
-# jupyter cache files
+# jupyter notebooks and caches
+**/*.ipynb
 **/.ipynb*/

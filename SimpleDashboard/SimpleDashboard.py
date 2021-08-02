@@ -1,16 +1,28 @@
+import os
 import pandas as pd
 import re
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
-import yfinance
+from flask_caching import Cache
+import DashCache
 from Layout import *
 
 
 ##### Dashboard layout #####
 # Dash Set up
-app = dash.Dash()
+app = dash.Dash(__name__)
+
+cache = Cache(app.server, config={
+    'CACHE_TYPE': 'filesystem', #
+    'CACHE_DIR': '/flaskcache',
+	'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 2,
+    'CACHE_THRESHOLD': 100,
+    'CACHE_IGNORE_ERRORS': False
+})
+
+yfinance = DashCache.yfinance(cache)
 
 # Base Layout
 app.layout = html.Div([

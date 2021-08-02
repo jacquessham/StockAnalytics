@@ -10,9 +10,12 @@ Check out Jacques' [Original ReadMe](./Readme_original.md)
 
 The second tab on this dashboard is unnecessary since the index can be overlayed on the same chart as the stock. Therefore, I will not be testing the second tab while attempting these refactoring tasks.
 
-1. ~~**Setup to work on docker.**~~
+1. ~~**Setup to work on docker.**~~Done!
 
 ~~I tend to do everything in docker now because it makes life easier down the track. And ultimately I will need to learn to deploy Plotly Dash apps. So this is just a quick change that doesn't really fix anything. I will also add Jupyter Notebooks for testing code changes on the same setup.~~
+
+Notes: 
+- Configuration currently assuming development environment. At some point I will update this to depend on environment variables.
 
 2. **Reduce API calls**
 
@@ -23,6 +26,13 @@ There only needs to be one call to the API for max history and filtering can be 
 My solution to these problems which will not break the dashboard is to create my own mini API (Python class) to sit between the functional code and the API. This will facilitate a sort of caching and simplify the code to some extent. 
 
 What I am not yet sure on is where is the best place to store the data. I am thinking of storing the object as json serialised on the client. But this needs further research if it is performant or not. 
+
+Notes:
+- I learned that all python code in Plotly Dash executes on the server. Therefore there is no point using a browser cache for this. 
+- One option is to use Flask cache. Interesting that Flask cache offers a Redis interface, I would like to try this in the future but initially it would be a file system cache. 
+- Also, looking into the yfinance source code, there is an option to cache. I think this will have issues though unless it plugs into the Flask Cache somehow, so it might be just easier to build my own cache.
+- Also realised that i am not using the latest flask version. I will get through this and upgrade later.
+
 
 3. **Move Data Transformations to API class**
 
