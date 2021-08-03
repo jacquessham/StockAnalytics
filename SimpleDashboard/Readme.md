@@ -10,28 +10,31 @@ Check out Jacques' [Original ReadMe](./Readme_original.md)
 
 The second tab on this dashboard is unnecessary since the index can be overlayed on the same chart as the stock. Therefore, I will not be testing the second tab while attempting these refactoring tasks.
 
-1. ~~**Setup to work on docker.**~~Done!
+1. **~~Setup to work on docker~~** Done!
 
 ~~I tend to do everything in docker now because it makes life easier down the track. And ultimately I will need to learn to deploy Plotly Dash apps. So this is just a quick change that doesn't really fix anything. I will also add Jupyter Notebooks for testing code changes on the same setup.~~
 
-Notes: 
+Todo: 
 - Configuration currently assuming development environment. At some point I will update this to depend on environment variables.
 
-2. **Reduce API calls**
+2. **~~Reduce API calls~~** Done!
 
-The original design uses the yfinance Python API to get stock history and stock info. However, this API is called multiple times for different purposes in a single render (i.e. validating that it exists, getting the data, and for calculating moving averages). This process also happens every time you change the chart date range for the same stock. The result is a bit of an annoying delay when playing with the charts. 
+~~The original design uses the yfinance Python API to get stock history and stock info. However, this API is called multiple times for different purposes in a single render (i.e. validating that it exists, getting the data, and for calculating moving averages). This process also happens every time you change the chart date range for the same stock. The result is a bit of an annoying delay when playing with the charts.~~
 
-There only needs to be one call to the API for max history and filtering can be done within the app. Also, in the future I could see a preference to caching API results in the case of switching between stocks, or a local database which is kept updated via a separate process. 
+~~There only needs to be one call to the API for max history and filtering can be done within the app. Also, in the future I could see a preference to caching API results in the case of switching between stocks, or a local database which is kept updated via a separate process.~~
 
-My solution to these problems which will not break the dashboard is to create my own mini API (Python class) to sit between the functional code and the API. This will facilitate a sort of caching and simplify the code to some extent. 
+~~My solution to these problems which will not break the dashboard is to create my own mini API (Python class) to sit between the functional code and the API. This will facilitate a sort of caching and simplify the code to some extent.~~
 
-What I am not yet sure on is where is the best place to store the data. I am thinking of storing the object as json serialised on the client. But this needs further research if it is performant or not. 
+~~What I am not yet sure on is where is the best place to store the data. I am thinking of storing the object as json serialised on the client. But this needs further research if it is performant or not.~~
 
 Notes:
-- I learned that all python code in Plotly Dash executes on the server. Therefore there is no point using a browser cache for this. 
-- One option is to use Flask cache. Interesting that Flask cache offers a Redis interface, I would like to try this in the future but initially it would be a file system cache. 
-- Also, looking into the yfinance source code, there is an option to cache. I think this will have issues though unless it plugs into the Flask Cache somehow, so it might be just easier to build my own cache.
-- Also realised that i am not using the latest flask version. I will get through this and upgrade later.
+- I learned that all python code in Plotly Dash executes on the server. Therefore there is no point using a browser cache for this. This makes sense, however, it seems to defeat the purpose of building the framework in React.js. In the Plotly Dash docs, there is an ability to create JS modules and front-end callbacks, so I guess there is an escape hatch if something is really non-performant due to unnecessary round-trips.
+- Plotly Dash is built on Flask which offers "Flask cache" (separate install). Apart from being simple to use, this is preferred because implementing your own simple cache can have issues with multi-threading and with simultaneous users. It is interesting that Flask cache offers a Redis interface. I would like to investigate this in the future but for simplicity, I have implemented a filesystem cache. 
+- Also looking into the yfinance source code, I see an option to cache. However, I think it is better to plug into the Flask cache for the reasons mentioned above.
+- The cache is now working really well, the responsiveness is what you would expect when you switch between time periods and when you re-select an already cached stock. 
+
+Todo:
+- One issue I encountered was the configuration of the 'FileSystemCache' in Flask, apparently the version of Flask I am using (default on anaconda3 2021.05) is old, so the cache configuration variable must be set to filesystem. I will upgrade at a later stage. 
 
 
 3. **Move Data Transformations to API class**
