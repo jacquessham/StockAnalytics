@@ -117,11 +117,16 @@ def getLinePlot(df, tab):
 	return {'data':traces, 'layout':layout}
 
 # Generate candlestick
-def getCandlestick(df):
+def getCandlestick(df, ticker):
 	data = []
 	data.append(go.Candlestick(x=df['Date'], open=df['Open'],
 		                       high=df['High'], low=df['Low'],
-		                       close=df['Close']))
+		                       close=df['Close'], name=ticker))
+
+	for ma in [50, 100, 200]:
+		ma_name = 'MA%d' % ma
+		data.append(go.Scatter(x=df['Date'], y=df[ma_name], name=ma_name))
+
 	layout = {'xaxis':{'title':'Date','rangeslider':{'visible':False}},
 			  'yaxis':{'title':'Price ($)'},
 	          'hovermode':False}
@@ -146,15 +151,22 @@ def getTab1Table(df, stock_info):
 	avg_vol = f'{avg_vol:,.0f}'
 
 	#Obtain shares outstanding
-	shareOutstanding = stock_info['sharesOutstanding']
-
-	# Calculate market cap and format it
-	mktcap = last_day['Close']*shareOutstanding
-	mktcap = f'{mktcap:,.0f}'
+	if 'sharesOutstanding' in stock_info:
+		shareOutstanding = stock_info['sharesOutstanding']
+		# Calculate market cap and format it
+		mktcap = last_day['Close']*shareOutstanding
+		mktcap = f'{mktcap:,.0f}'
+		shareOutstanding = f'{shareOutstanding:,.0f}'
+	else:
+		shareOutstanding = 'N/A'
+		mktcap = 'N/A'
 
 	# Format beta
 	beta = stock_info['beta']
-	beta = f'{beta:.2f}'
+	if beta is None:
+		beta = 'N/A'
+	else:
+		beta = f'{beta:.2f}'
 
 	# Format PE and Forward PE, if no PE, PE not in the dictionary
 	if 'trailingPE' in stock_info:
@@ -164,17 +176,26 @@ def getTab1Table(df, stock_info):
 		pe = 'N/A'
 	if 'forwardPE' in stock_info:
 		fpe = stock_info['forwardPE']
-		fpe = f'{fpe:.2f}'
+		if fpe is None:
+			fpe = 'N/A'
+		else:
+			fpe = f'{fpe:.2f}'
 	else:
 		fpe = 'N/A'
 
 	# Format EPS
 	eps = stock_info['trailingEps']
-	eps = f'{eps:.2f}'
+	if eps is None:
+		eps = 'N/A'
+	else:
+		eps = f'{eps:.2f}'
 
 	# Format Profit margin
 	margin = stock_info['profitMargins']
-	margin = f'{margin:.2f}'
+	if margin is None:
+		margin = 'N/A'
+	else:
+		margin = f'{margin:.2f}'
 
 	# Prepare data for dividend rate
 	if stock_info['dividendRate'] is None or stock_info['dividendRate']=='':
@@ -189,7 +210,8 @@ def getTab1Table(df, stock_info):
 	else: 
 		ex_dividend_date = 'N/A'
 
-
+	if 'industry' not in stock_info:
+		stock_info['industry'] = 'N/A'
 
 	return html.Table([
 		html.Tr([html.Td('Industry'), html.Td(),
@@ -222,8 +244,8 @@ def getTab1Table(df, stock_info):
 			     html.Td(dividend)]),
 		html.Tr([html.Td('Ex-Dividend Date'), html.Td(),
 			     html.Td(ex_dividend_date)]),
-		html.Tr([html.Td('Earning Per Share (EPS)'), html.Td(),
-			     html.Td(f'{shareOutstanding:,.0f}')])
+		html.Tr([html.Td('Shares Outstanding'), html.Td(),
+			     html.Td(shareOutstanding)])
 		])
 
 # Generate Table for Tab 2 - Index

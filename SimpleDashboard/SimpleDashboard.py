@@ -120,7 +120,7 @@ def get_ticker(n_clicks, time, ticker, mkt):
 	stockFormat, ticker = verify_ticker(ticker, mkt)
 	# Catch incorrect 
 	if stockFormat is False:
-		return 'Wrong Ticker', '#######', '$##.##', '##.##', \
+		return 'Invalid Format', '#######', '$##.##', '##.##', \
 		       {'width':'20%', 'display':'inline-block'}, '##.##%', \
 		       {'width':'20%', 'display':'inline-block'}, \
 		       'Error! Please try again.', {'data':None}, None
@@ -128,7 +128,7 @@ def get_ticker(n_clicks, time, ticker, mkt):
 	stock = yfinance.Ticker(ticker)
 	# Catch if stock exists
 	if stock.history(period='ytd').shape[0] == 0:
-		return 'Wrong Ticker', '#######', '$##.##', '##.##', \
+		return 'Unknown Ticker', '#######', '$##.##', '##.##', \
 		       {'width':'20%', 'display':'inline-block'}, '##.##%', \
 		       {'width':'20%', 'display':'inline-block'}, \
 		       'Error! Please try again.', {'data':None}, None
@@ -154,7 +154,7 @@ def get_ticker(n_clicks, time, ticker, mkt):
 		df = getMA(stock, time, 
 			       stock.history(period=time).reset_index()['Date'])
 
-		fig = getCandlestick(df)
+		fig = getCandlestick(df, ticker)
 		table = getTab1Table(stock.history(period=time).reset_index(),
 			                 stock.info)
 
