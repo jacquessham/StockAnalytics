@@ -10,7 +10,7 @@ Besides only looking at the fundamentals and technical analysis of a single stoc
 ## Goal
 To develop a dashboard to serve the following goals:
 1. Display the trend of stock price, basic statistics of a stock selected by user.
-2. Display the trend of growth rate of selected stocks along with the trend of growth rate index for comparsion.
+2. Display the trend of growth rate of selected stocks along with the trend of growth rate index for comparsion (Benchmark Growth).
 
 ## Data
 There are two required data in this dashboard:

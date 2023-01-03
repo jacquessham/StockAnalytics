@@ -118,10 +118,19 @@ def getLinePlot(df, tab):
 
 # Generate candlestick
 def getCandlestick(df):
-	data = []
+	data = []	
+	data.append(go.Scatter(x=df['Date'], y=df['MA50'],
+						   mode='lines', name='50 Days Moving Average',
+						   line=dict(color='rgb(107,237,235)')))
+	data.append(go.Scatter(x=df['Date'], y=df['MA100'],
+						   mode='lines', name='100 Days Moving Average',
+						   line=dict(color='rgb(247,206,92)')))
+	data.append(go.Scatter(x=df['Date'], y=df['MA200'],
+						   mode='lines', name='200 Days Moving Average',
+						   line=dict(color='rgb(213,157,242)')))
 	data.append(go.Candlestick(x=df['Date'], open=df['Open'],
 		                       high=df['High'], low=df['Low'],
-		                       close=df['Close']))
+		                       close=df['Close'], showlegend=False))
 	layout = {'xaxis':{'title':'Date','rangeslider':{'visible':False}},
 			  'yaxis':{'title':'Price ($)'},
 	          'hovermode':False}
